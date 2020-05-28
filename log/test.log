@@ -1,0 +1,171 @@
+17:30:34.592 [restartedMain] INFO  controller.ManageApplication - Starting ManageApplication on DESKTOP-NIFO9A2 with PID 6168 (D:\IDEA\shiftMange\target\classes started by panchen in D:\IDEA\shiftMange)
+17:30:34.636 [restartedMain] INFO  controller.ManageApplication - No active profile set, falling back to default profiles: default
+17:30:35.834 [restartedMain] INFO  org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+17:30:35.834 [restartedMain] INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+17:30:35.835 [restartedMain] INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.35]
+17:30:35.919 [restartedMain] INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+17:30:36.125 [task-1] INFO  org.hibernate.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+17:30:36.203 [task-1] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 5.4.15.Final
+17:30:36.435 [task-1] INFO  org.hibernate.annotations.common.Version - HCANN000001: Hibernate Commons Annotations {5.1.0.Final}
+17:30:36.539 [task-1] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+17:30:36.603 [restartedMain] INFO  org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+17:30:36.630 [restartedMain] INFO  controller.ManageApplication - Started ManageApplication in 2.457 seconds (JVM running for 3.462)
+17:30:36.659 [task-1] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+17:30:36.677 [task-1] INFO  org.hibernate.dialect.Dialect - HHH000400: Using dialect: org.hibernate.dialect.MySQL57Dialect
+17:30:37.987 [task-1] INFO  org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+17:32:06.628 [http-nio-8080-exec-1] INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+17:32:06.692 [http-nio-8080-exec-1] INFO  controller.ShiftController - ===== 
+17:32:07.337 [Thread-182] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+17:32:07.344 [Thread-182] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+17:32:07.604 [restartedMain] INFO  controller.ManageApplication - Starting ManageApplication on DESKTOP-NIFO9A2 with PID 6168 (D:\IDEA\shiftMange\target\classes started by panchen in D:\IDEA\shiftMange)
+17:32:07.605 [restartedMain] INFO  controller.ManageApplication - No active profile set, falling back to default profiles: default
+17:32:08.023 [restartedMain] INFO  org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+17:32:08.023 [restartedMain] INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+17:32:08.024 [restartedMain] INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.35]
+17:32:08.049 [restartedMain] INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+17:32:08.098 [task-1] INFO  org.hibernate.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+17:32:08.106 [task-1] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Starting...
+17:32:08.116 [task-1] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Start completed.
+17:32:08.116 [task-1] INFO  org.hibernate.dialect.Dialect - HHH000400: Using dialect: org.hibernate.dialect.MySQL57Dialect
+17:32:08.156 [task-1] INFO  org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+17:32:08.248 [restartedMain] INFO  org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+17:32:08.255 [restartedMain] INFO  controller.ManageApplication - Started ManageApplication in 0.732 seconds (JVM running for 95.086)
+17:32:17.134 [http-nio-8080-exec-1] INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+17:32:17.150 [http-nio-8080-exec-1] ERROR org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/].[dispatcherServlet] - Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception [Request processing failed; nested exception is java.lang.NullPointerException] with root cause
+java.lang.NullPointerException: null
+	at Service.ShiftService.findAll(ShiftService.java:15) ~[classes/:?]
+	at controller.ShiftController.showShift(ShiftController.java:26) ~[classes/:?]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[?:1.8.0_151]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[?:1.8.0_151]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[?:1.8.0_151]
+	at java.lang.reflect.Method.invoke(Method.java:498) ~[?:1.8.0_151]
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:190) ~[spring-web-5.2.6.RELEASE.jar:5.2.6.RELEASE]
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:138) ~[spring-web-5.2.6.RELEASE.jar:5.2.6.RELEASE]
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:105) ~[spring-webmvc-5.2.6.RELEASE.jar:5.2.6.RELEASE]
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:879) ~[spring-webmvc-5.2.6.RELEASE.jar:5.2.6.RELEASE]
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:793) ~[spring-webmvc-5.2.6.RELEASE.jar:5.2.6.RELEASE]
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87) ~[spring-webmvc-5.2.6.RELEASE.jar:5.2.6.RELEASE]
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1040) ~[spring-webmvc-5.2.6.RELEASE.jar:5.2.6.RELEASE]
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:943) ~[spring-webmvc-5.2.6.RELEASE.jar:5.2.6.RELEASE]
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1006) ~[spring-webmvc-5.2.6.RELEASE.jar:5.2.6.RELEASE]
+	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:898) ~[spring-webmvc-5.2.6.RELEASE.jar:5.2.6.RELEASE]
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:634) ~[tomcat-embed-core-9.0.35.jar:9.0.35]
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:883) ~[spring-webmvc-5.2.6.RELEASE.jar:5.2.6.RELEASE]
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:741) ~[tomcat-embed-core-9.0.35.jar:9.0.35]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:231) ~[tomcat-embed-core-9.0.35.jar:9.0.35]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166) ~[tomcat-embed-core-9.0.35.jar:9.0.35]
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53) ~[tomcat-embed-websocket-9.0.35.jar:9.0.35]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193) ~[tomcat-embed-core-9.0.35.jar:9.0.35]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166) ~[tomcat-embed-core-9.0.35.jar:9.0.35]
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100) ~[spring-web-5.2.6.RELEASE.jar:5.2.6.RELEASE]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119) ~[spring-web-5.2.6.RELEASE.jar:5.2.6.RELEASE]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193) ~[tomcat-embed-core-9.0.35.jar:9.0.35]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166) ~[tomcat-embed-core-9.0.35.jar:9.0.35]
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93) ~[spring-web-5.2.6.RELEASE.jar:5.2.6.RELEASE]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119) ~[spring-web-5.2.6.RELEASE.jar:5.2.6.RELEASE]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193) ~[tomcat-embed-core-9.0.35.jar:9.0.35]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166) ~[tomcat-embed-core-9.0.35.jar:9.0.35]
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201) ~[spring-web-5.2.6.RELEASE.jar:5.2.6.RELEASE]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119) ~[spring-web-5.2.6.RELEASE.jar:5.2.6.RELEASE]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193) ~[tomcat-embed-core-9.0.35.jar:9.0.35]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166) ~[tomcat-embed-core-9.0.35.jar:9.0.35]
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:202) [tomcat-embed-core-9.0.35.jar:9.0.35]
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:96) [tomcat-embed-core-9.0.35.jar:9.0.35]
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:541) [tomcat-embed-core-9.0.35.jar:9.0.35]
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:139) [tomcat-embed-core-9.0.35.jar:9.0.35]
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:92) [tomcat-embed-core-9.0.35.jar:9.0.35]
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74) [tomcat-embed-core-9.0.35.jar:9.0.35]
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:343) [tomcat-embed-core-9.0.35.jar:9.0.35]
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:373) [tomcat-embed-core-9.0.35.jar:9.0.35]
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:65) [tomcat-embed-core-9.0.35.jar:9.0.35]
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:868) [tomcat-embed-core-9.0.35.jar:9.0.35]
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1590) [tomcat-embed-core-9.0.35.jar:9.0.35]
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49) [tomcat-embed-core-9.0.35.jar:9.0.35]
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149) [?:1.8.0_151]
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624) [?:1.8.0_151]
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61) [tomcat-embed-core-9.0.35.jar:9.0.35]
+	at java.lang.Thread.run(Thread.java:748) [?:1.8.0_151]
+17:36:19.748 [Thread-189] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Shutdown initiated...
+17:36:19.763 [Thread-189] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Shutdown completed.
+17:36:19.929 [restartedMain] INFO  controller.ManageApplication - Starting ManageApplication on DESKTOP-NIFO9A2 with PID 6168 (D:\IDEA\shiftMange\target\classes started by panchen in D:\IDEA\shiftMange)
+17:36:19.930 [restartedMain] INFO  controller.ManageApplication - No active profile set, falling back to default profiles: default
+17:36:20.572 [restartedMain] INFO  org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+17:36:20.572 [restartedMain] INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+17:36:20.572 [restartedMain] INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.35]
+17:36:20.593 [restartedMain] INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+17:36:20.642 [task-1] INFO  org.hibernate.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+17:36:20.648 [task-1] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-3 - Starting...
+17:36:20.651 [task-1] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-3 - Start completed.
+17:36:20.652 [task-1] INFO  org.hibernate.dialect.Dialect - HHH000400: Using dialect: org.hibernate.dialect.MySQL57Dialect
+17:36:20.676 [task-1] INFO  org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+17:36:20.680 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-3 - Shutdown initiated...
+17:36:20.681 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-3 - Shutdown completed.
+17:36:20.681 [restartedMain] INFO  org.apache.catalina.core.StandardService - Stopping service [Tomcat]
+17:36:39.597 [restartedMain] INFO  controller.ManageApplication - Starting ManageApplication on DESKTOP-NIFO9A2 with PID 6168 (D:\IDEA\shiftMange\target\classes started by panchen in D:\IDEA\shiftMange)
+17:36:39.599 [restartedMain] INFO  controller.ManageApplication - No active profile set, falling back to default profiles: default
+17:36:39.952 [restartedMain] INFO  org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+17:36:39.952 [restartedMain] INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+17:36:39.953 [restartedMain] INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.35]
+17:36:39.969 [restartedMain] INFO  org.apache.catalina.core.ContainerBase.[Tomcat-1].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+17:36:40.017 [restartedMain] INFO  org.hibernate.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+17:36:40.020 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-4 - Starting...
+17:36:40.023 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-4 - Start completed.
+17:36:40.023 [restartedMain] INFO  org.hibernate.dialect.Dialect - HHH000400: Using dialect: org.hibernate.dialect.MySQL57Dialect
+17:36:40.044 [restartedMain] INFO  org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+17:36:40.324 [restartedMain] INFO  org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+17:36:40.332 [restartedMain] INFO  controller.ManageApplication - Started ManageApplication in 0.77 seconds (JVM running for 367.162)
+17:36:52.850 [Thread-365] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-4 - Shutdown initiated...
+17:36:52.852 [Thread-365] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-4 - Shutdown completed.
+17:36:53.030 [restartedMain] INFO  controller.ManageApplication - Starting ManageApplication on DESKTOP-NIFO9A2 with PID 6168 (D:\IDEA\shiftMange\target\classes started by panchen in D:\IDEA\shiftMange)
+17:36:53.030 [restartedMain] INFO  controller.ManageApplication - No active profile set, falling back to default profiles: default
+17:36:53.295 [restartedMain] INFO  org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+17:36:53.295 [restartedMain] INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+17:36:53.295 [restartedMain] INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.35]
+17:36:53.309 [restartedMain] INFO  org.apache.catalina.core.ContainerBase.[Tomcat-1].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+17:36:53.337 [restartedMain] INFO  org.hibernate.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+17:36:53.340 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-5 - Starting...
+17:36:53.344 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-5 - Start completed.
+17:36:53.344 [restartedMain] INFO  org.hibernate.dialect.Dialect - HHH000400: Using dialect: org.hibernate.dialect.MySQL57Dialect
+17:36:53.374 [restartedMain] INFO  org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+17:36:53.491 [restartedMain] INFO  org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+17:36:53.497 [restartedMain] INFO  controller.ManageApplication - Started ManageApplication in 0.5 seconds (JVM running for 380.329)
+17:37:47.394 [http-nio-8080-exec-1] INFO  org.apache.catalina.core.ContainerBase.[Tomcat-1].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+17:37:47.522 [http-nio-8080-exec-1] INFO  controller.ShiftController - ===== %d
+17:37:49.436 [Thread-715] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-5 - Shutdown initiated...
+17:37:49.439 [Thread-715] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-5 - Shutdown completed.
+17:37:49.577 [restartedMain] INFO  controller.ManageApplication - Starting ManageApplication on DESKTOP-NIFO9A2 with PID 6168 (D:\IDEA\shiftMange\target\classes started by panchen in D:\IDEA\shiftMange)
+17:37:49.578 [restartedMain] INFO  controller.ManageApplication - No active profile set, falling back to default profiles: default
+17:37:49.882 [restartedMain] INFO  org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+17:37:49.883 [restartedMain] INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+17:37:49.883 [restartedMain] INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.35]
+17:37:49.908 [restartedMain] INFO  org.apache.catalina.core.ContainerBase.[Tomcat-1].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+17:37:49.963 [restartedMain] INFO  org.hibernate.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+17:37:49.969 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-6 - Starting...
+17:37:49.977 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-6 - Start completed.
+17:37:49.977 [restartedMain] INFO  org.hibernate.dialect.Dialect - HHH000400: Using dialect: org.hibernate.dialect.MySQL57Dialect
+17:37:50.002 [restartedMain] INFO  org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+17:37:50.135 [restartedMain] INFO  org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+17:37:50.142 [restartedMain] INFO  controller.ManageApplication - Started ManageApplication in 0.601 seconds (JVM running for 436.973)
+17:38:02.770 [http-nio-8080-exec-1] INFO  org.apache.catalina.core.ContainerBase.[Tomcat-1].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+17:38:02.777 [http-nio-8080-exec-1] INFO  controller.ShiftController - ===== %d
+17:38:03.271 [http-nio-8080-exec-2] INFO  controller.ShiftController - ===== %d
+17:38:03.461 [http-nio-8080-exec-3] INFO  controller.ShiftController - ===== %d
+17:38:03.627 [http-nio-8080-exec-4] INFO  controller.ShiftController - ===== %d
+17:38:24.696 [http-nio-8080-exec-6] INFO  controller.ShiftController - ===== %d
+17:38:27.083 [Thread-891] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-6 - Shutdown initiated...
+17:38:27.087 [Thread-891] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-6 - Shutdown completed.
+17:38:27.242 [restartedMain] INFO  controller.ManageApplication - Starting ManageApplication on DESKTOP-NIFO9A2 with PID 6168 (D:\IDEA\shiftMange\target\classes started by panchen in D:\IDEA\shiftMange)
+17:38:27.243 [restartedMain] INFO  controller.ManageApplication - No active profile set, falling back to default profiles: default
+17:38:27.550 [restartedMain] INFO  org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+17:38:27.550 [restartedMain] INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+17:38:27.550 [restartedMain] INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.35]
+17:38:27.564 [restartedMain] INFO  org.apache.catalina.core.ContainerBase.[Tomcat-1].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+17:38:27.596 [restartedMain] INFO  org.hibernate.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+17:38:27.599 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-7 - Starting...
+17:38:27.602 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-7 - Start completed.
+17:38:27.602 [restartedMain] INFO  org.hibernate.dialect.Dialect - HHH000400: Using dialect: org.hibernate.dialect.MySQL57Dialect
+17:38:27.626 [restartedMain] INFO  org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+17:38:27.784 [restartedMain] INFO  org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+17:38:27.790 [restartedMain] INFO  controller.ManageApplication - Started ManageApplication in 0.581 seconds (JVM running for 474.621)
+17:38:32.796 [http-nio-8080-exec-1] INFO  org.apache.catalina.core.ContainerBase.[Tomcat-1].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+17:38:32.803 [http-nio-8080-exec-1] INFO  controller.ShiftController - =====0
