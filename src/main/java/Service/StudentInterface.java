@@ -3,6 +3,8 @@ package Service;
 import model.Student;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface StudentInterface extends JpaRepository<Student,Long> {
+import java.util.List;
 
+public interface StudentInterface extends JpaRepository<Student,Long> {
+    List findBycourseId(Long courseId);
 }
