@@ -44,4 +44,7 @@ public class ShiftInfo implements Serializable {
     @Column(name = "WORKTYPE",length = 50)
     private String workType;//工种名称
 
+    @Column(name = "workPlanId")
+    private Long workPlanId;//学习计划Id
+
 }
