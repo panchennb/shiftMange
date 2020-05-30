@@ -111,8 +111,6 @@ public class ZhiJianController {
         LessonInfo lessonInfo = json2Object(mapJson.getJSONObject("kcxx"), LessonInfo.class);
         List<StudentInfo> studentInfos = json2List(mapJson.getJSONArray("xyxx"), StudentInfo.class);
         ShiftInfo shiftInfo = new ShiftInfo();
-        String shiftInfoId = APIUtil.getUUID();
-        shiftInfo.setId(shiftInfoId);
         shiftInfo.setCourseId(lessonInfo.getKbsqId());
         shiftInfo.setChargeUserNo(lessonInfo.getUserNo());
         shiftInfo.setChargeUserPwd(lessonInfo.getUserPwd());
@@ -131,11 +129,11 @@ public class ZhiJianController {
         shiftInfo.setCourseHours(lessonInfo.getKbsqXs());
         shiftInfo.setCourseName(lessonInfo.getKbsqKcmc());
         shiftInfo.setWorkType(lessonInfo.getKbsqZygz());
-        shiftInterface.save(shiftInfo);
+        ShiftInfo shift = shiftInterface.save(shiftInfo);
         for (StudentInfo studentInfo : studentInfos) {
             Student student = new Student();
             student.setCourseId(lessonInfo.getKbsqId());
-            student.setShiftInfoId(shiftInfoId);
+            student.setShiftInfoId(shift.getId());
             try {
                 student.setCreateDate(SDF_YMDHMS.parse(APIUtil.now()));
                 student.setUpdateDate(SDF_YMDHMS.parse(APIUtil.now()));

@@ -44,7 +44,7 @@ public class Student {
     @Column(name = "UPDATEDATE")
     private Date updateDate;//更新时间
 
-    @Column(name = "isJoin")
+    @Column(name = "ISJOIN")
     private Integer isJoin=0;//是否加入学习计划
 
     public String getId() {
