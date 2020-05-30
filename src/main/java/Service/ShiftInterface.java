@@ -8,4 +8,5 @@ import java.util.List;
 
 public interface ShiftInterface extends JpaRepository<ShiftInfo,Long> {
     ShiftInfo findByCourseId(Long courseId);
+    ShiftInfo findById(String id);
 }

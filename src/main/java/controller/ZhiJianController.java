@@ -86,7 +86,7 @@ public class ZhiJianController {
      * @return
      * @throws IOException
      */
-    private Object getToken(String userNo, String userPwd) throws IOException {
+    public Object getToken(String userNo, String userPwd) throws IOException {
         Map<String, Object> params = new HashMap<>();
         params.put("userNo", userNo);
         params.put("userPwd", userPwd);
@@ -104,6 +104,9 @@ public class ZhiJianController {
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     private Object saveLessonInfo(HttpServletRequest request, @RequestBody Map<String, Object> planMap) {
+        String flg = "true";
+        String errMsg = null;
+
         JSONObject mapJson = JSONObject.fromObject(planMap);
         LessonInfo lessonInfo = json2Object(mapJson.getJSONObject("kcxx"), LessonInfo.class);
         List<StudentInfo> studentInfos = json2List(mapJson.getJSONArray("xyxx"), StudentInfo.class);
@@ -122,6 +125,8 @@ public class ZhiJianController {
             shiftInfo.setUpdateDate(SDF_YMDHMS.parse(APIUtil.now()));
         } catch (ParseException e) {
             LOGGER.error(e.toString());
+            flg = "false";
+            errMsg = e.getMessage();
         }
         shiftInfo.setCourseHours(lessonInfo.getKbsqXs());
         shiftInfo.setCourseName(lessonInfo.getKbsqKcmc());
@@ -136,6 +141,8 @@ public class ZhiJianController {
                 student.setUpdateDate(SDF_YMDHMS.parse(APIUtil.now()));
             } catch (ParseException e) {
                 LOGGER.error(e.toString());
+                flg = "false";
+                errMsg = e.getMessage();
             }
             student.setIdCard(studentInfo.getXyxxSfzh());
             student.setName(studentInfo.getXyxxName());
@@ -145,7 +152,10 @@ public class ZhiJianController {
             student.setUserPass(studentInfo.getUserPass());
             studentInterface.save(student);
         }
-        return null;
+        Map<String, Object> result = new HashMap<>();
+        result.put("flg", flg);
+        result.put("errMsg", errMsg);
+        return result;
     }
 
     /**
