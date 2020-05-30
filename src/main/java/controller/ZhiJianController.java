@@ -1,5 +1,7 @@
 package controller;
 
+import Service.ShiftInterface;
+import Service.StudentInterface;
 import model.ShiftInfo;
 import model.Student;
 import model.zhijian.LessonInfo;
@@ -8,6 +10,7 @@ import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +19,8 @@ import utils.OKHttp2Utils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -34,6 +39,22 @@ public class ZhiJianController {
 
     private static final String USERNO = "";
     private static final String USERPWD = "";
+
+    private static final SimpleDateFormat SDF_YMD = new SimpleDateFormat("yyyy-MM-dd");
+    private static final SimpleDateFormat SDF_YMDHMS = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+    @Autowired
+    private StudentInterface studentInterface;
+
+    @Autowired
+    private ShiftInterface shiftInterface;
+
+    @RequestMapping(value = "/test", method = RequestMethod.GET)
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    public void setPersonalPlan(HttpServletRequest request, String test) {
+        LOGGER.info(test);
+    }
 
     /**
      * 登录接口
@@ -94,27 +115,35 @@ public class ZhiJianController {
         shiftInfo.setChargeUserPwd(lessonInfo.getUserPwd());
         shiftInfo.setTrainingAgencyId(lessonInfo.getKbsqJgid());
         shiftInfo.setTrainingAgencyName(lessonInfo.getJgglName());
-        shiftInfo.setCourseStartDate(lessonInfo.getKbsqKssj());
-        shiftInfo.setCourseEndDate(lessonInfo.getKbsqJssj());
+        try {
+            shiftInfo.setCourseStartDate(SDF_YMD.parse(lessonInfo.getKbsqKssj()));
+            shiftInfo.setCourseEndDate(SDF_YMD.parse(lessonInfo.getKbsqJssj()));
+            shiftInfo.setCreateDate(SDF_YMDHMS.parse(APIUtil.now()));
+            shiftInfo.setUpdateDate(SDF_YMDHMS.parse(APIUtil.now()));
+        } catch (ParseException e) {
+            LOGGER.error(e.toString());
+        }
         shiftInfo.setCourseHours(lessonInfo.getKbsqXs());
         shiftInfo.setCourseName(lessonInfo.getKbsqKcmc());
         shiftInfo.setWorkType(lessonInfo.getKbsqZygz());
-        shiftInfo.setCreateDate(APIUtil.now());
-        shiftInfo.setUpdateDate(APIUtil.now());
-        // TODO 存开班信息
+        shiftInterface.save(shiftInfo);
         for (StudentInfo studentInfo : studentInfos) {
             Student student = new Student();
             student.setCourseId(lessonInfo.getKbsqId());
             student.setShiftInfoId(shiftInfoId);
-            student.setCreateDate(APIUtil.now());
-            student.setUpdateDate(APIUtil.now());
+            try {
+                student.setCreateDate(SDF_YMDHMS.parse(APIUtil.now()));
+                student.setUpdateDate(SDF_YMDHMS.parse(APIUtil.now()));
+            } catch (ParseException e) {
+                LOGGER.error(e.toString());
+            }
             student.setIdCard(studentInfo.getXyxxSfzh());
             student.setName(studentInfo.getXyxxName());
             student.setUserNo(studentInfo.getUserNo());
             student.setPhone(studentInfo.getXyxxLxdh());
             student.setStudentId(studentInfo.getKbxyXyid());
             student.setUserPass(studentInfo.getUserPass());
-            // TODO 存学员信息
+            studentInterface.save(student);
         }
         return null;
     }

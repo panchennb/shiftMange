@@ -3,6 +3,7 @@ package model;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 @Table(name = "T_STUDENT")
@@ -38,13 +39,13 @@ public class Student {
     private String idCard;//身份证号
 
     @Column(name = "CREATEDATE")
-    private String createDate;//创建时间
+    private Date createDate;//创建时间
 
     @Column(name = "UPDATEDATE")
-    private String updateDate;//更新时间
+    private Date updateDate;//更新时间
 
     @Column(name = "isJoin")
-    private String isJoin;//是否加入学习计划
+    private Integer isJoin=0;//是否加入学习计划
 
     public String getId() {
         return id;
@@ -118,27 +119,27 @@ public class Student {
         this.idCard = idCard;
     }
 
-    public String getCreateDate() {
+    public Date getCreateDate() {
         return createDate;
     }
 
-    public void setCreateDate(String createDate) {
+    public void setCreateDate(Date createDate) {
         this.createDate = createDate;
     }
 
-    public String getUpdateDate() {
+    public Date getUpdateDate() {
         return updateDate;
     }
 
-    public void setUpdateDate(String updateDate) {
+    public void setUpdateDate(Date updateDate) {
         this.updateDate = updateDate;
     }
 
-    public String getIsJoin() {
+    public Integer getIsJoin() {
         return isJoin;
     }
 
-    public void setIsJoin(String isJoin) {
+    public void setIsJoin(Integer isJoin) {
         this.isJoin = isJoin;
     }
 }

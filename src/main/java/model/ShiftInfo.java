@@ -3,6 +3,7 @@ package model;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 @Table(name = "T_SHIFTINFO")
@@ -29,10 +30,10 @@ public class ShiftInfo {
     private String trainingAgencyName;//培训机构名称
 
     @Column(name = "COURSESTARTDATE")
-    private String courseStartDate;//课程开始时间
+    private Date courseStartDate;//课程开始时间
 
     @Column(name = "COURSEENDDATE")
-    private String courseEndDate;//课程结束时间
+    private Date courseEndDate;//课程结束时间
 
     @Column(name = "COURSEHOURS")
     private Integer courseHours;//课程总学时
@@ -44,10 +45,10 @@ public class ShiftInfo {
     private String workType;//工种名称
 
     @Column(name = "CREATEDATE")
-    private String createDate;//创建时间
+    private Date createDate;//创建时间
 
     @Column(name = "UPDATEDATE")
-    private String updateDate;//更新时间
+    private Date updateDate;//更新时间
 
     @Column(name = "ISRELATED")
     private Integer isRelated = 0;//是否关联学习计划
@@ -109,20 +110,28 @@ public class ShiftInfo {
         this.trainingAgencyName = trainingAgencyName;
     }
 
-    public String getCourseStartDate() {
+    public Date getCourseStartDate() {
         return courseStartDate;
     }
 
-    public void setCourseStartDate(String courseStartDate) {
+    public void setCourseStartDate(Date courseStartDate) {
         this.courseStartDate = courseStartDate;
     }
 
-    public String getCourseEndDate() {
+    public Date getCourseEndDate() {
         return courseEndDate;
     }
 
-    public void setCourseEndDate(String courseEndDate) {
+    public void setCourseEndDate(Date courseEndDate) {
         this.courseEndDate = courseEndDate;
+    }
+
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
+    }
+
+    public void setUpdateDate(Date updateDate) {
+        this.updateDate = updateDate;
     }
 
     public Integer getCourseHours() {
@@ -147,22 +156,6 @@ public class ShiftInfo {
 
     public void setWorkType(String workType) {
         this.workType = workType;
-    }
-
-    public String getCreateDate() {
-        return createDate;
-    }
-
-    public void setCreateDate(String createDate) {
-        this.createDate = createDate;
-    }
-
-    public String getUpdateDate() {
-        return updateDate;
-    }
-
-    public void setUpdateDate(String updateDate) {
-        this.updateDate = updateDate;
     }
 
     public Integer getIsRelated() {
