@@ -39,10 +39,16 @@ public class YunXueTangController {
     private static final String CHECK_USER_URL = "https://api-qida.yunxuetang.cn/v1/udp/sy/sv/cku";
     private static final String USER_ADD_STUDYPLAN_URL = "http://api.yunxuetang.cn/el/sty/addpersontoplan";
 
+    private static final String URL_PREIX = "http://IP:端口/tomp";
+    private static final String KBQR_URL = URL_PREIX + "/visitors/saveZjsz";
+
     private static final String APIKEY = "1eec01df-0e9c-4ae5-b6dc-8614fe75458c";
     private static final String SALT = "123";
     private static final String SECRETKEY = "6116b0ab-a136-474d-a7b3-d80c13c3294c";
     private static final String BASE_URL = "https://api-qida.yunxuetang.cn/v1/";
+
+    private static final String USERNO = "";
+    private static final String USERPWD = "";
 
     @Autowired
     private ShiftInterface shiftInterface;
@@ -51,7 +57,7 @@ public class YunXueTangController {
 
 
     /**
-     * 关联学习计划  TODO 回调yxt学习计划信息
+     * 关联学习计划
      *
      * @param request
      * @param param
@@ -76,6 +82,7 @@ public class YunXueTangController {
             shift.setIsRelated(param.getIsRelated());
             shiftInfo = shiftInterface.save(shift);
             students = joinStudent(param);
+            returnStudyPlan(shift, param);
         } catch (Exception e) {
             LOGGER.error(e.toString());
             code = 0;
@@ -160,6 +167,27 @@ public class YunXueTangController {
             if (users2Add.size() > 0) {
                 ResultJavaEntity resultJavaEntity = SyncDataJavaUtil.users(1, users2Add, APIKEY, SECRETKEY, BASE_URL);
             }
+        } catch (IOException e) {
+            LOGGER.error(e.toString());
+        }
+    }
+
+    private void returnStudyPlan(ShiftInfo shift, ShiftRelateInfo param) {
+        try {
+            Object tokenReturn = ZhiJianController.getToken(USERNO, USERPWD);
+            JSONObject tokenJson = JSONObject.fromObject(tokenReturn);
+            String token = tokenJson.getString("data");
+            String dsptKcszId = shift.getCourseId().toString();// 课程ID
+            String dsptJgjg = shift.getTrainingAgencyName();// 监管机构
+            List<Map<String, Object>> kbxx = new ArrayList<>();// 课表信息
+            // TODO 获取计划阶段及内容
+            Map<String, Object> params = new HashMap<>();
+            params.put("token", token);
+            params.put("dsptKcszId", dsptKcszId);
+            params.put("dsptJgjg", dsptJgjg);
+            params.put("kbxx", kbxx);
+            String result = OKHttp2Utils.postJson(KBQR_URL, params.toString());
+            LOGGER.info(result);
         } catch (IOException e) {
             LOGGER.error(e.toString());
         }

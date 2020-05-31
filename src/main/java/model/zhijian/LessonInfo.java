@@ -1,5 +1,8 @@
 package model.zhijian;
 
+/**
+ * 课程信息
+ */
 public class LessonInfo {
 
     private Long kbsqId;//课程ID

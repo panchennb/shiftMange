@@ -126,14 +126,6 @@ public class ShiftInfo {
         this.courseEndDate = courseEndDate;
     }
 
-    public void setCreateDate(Date createDate) {
-        this.createDate = createDate;
-    }
-
-    public void setUpdateDate(Date updateDate) {
-        this.updateDate = updateDate;
-    }
-
     public Integer getCourseHours() {
         return courseHours;
     }
@@ -156,6 +148,22 @@ public class ShiftInfo {
 
     public void setWorkType(String workType) {
         this.workType = workType;
+    }
+
+    public Date getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
+    }
+
+    public Date getUpdateDate() {
+        return updateDate;
+    }
+
+    public void setUpdateDate(Date updateDate) {
+        this.updateDate = updateDate;
     }
 
     public Integer getIsRelated() {

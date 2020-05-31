@@ -49,13 +49,6 @@ public class ZhiJianController {
     @Autowired
     private ShiftInterface shiftInterface;
 
-    @RequestMapping(value = "/test", method = RequestMethod.GET)
-    @ResponseStatus(HttpStatus.OK)
-    @ResponseBody
-    public void test(HttpServletRequest request, String test) {
-        LOGGER.info(test);
-    }
-
     /**
      * 登录接口
      *
@@ -86,7 +79,7 @@ public class ZhiJianController {
      * @return
      * @throws IOException
      */
-    public Object getToken(String userNo, String userPwd) throws IOException {
+    public static Object getToken(String userNo, String userPwd) throws IOException {
         Map<String, Object> params = new HashMap<>();
         params.put("userNo", userNo);
         params.put("userPwd", userPwd);
