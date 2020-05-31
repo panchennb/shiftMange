@@ -15,7 +15,7 @@ public class ShiftInfo {
     private String id;
 
     @Column(name = "COURSEID")
-    private String courseId;//课程ID
+    private Long courseId;//课程ID
 
     @Column(name = "CHARGEUSERNO")
     private String chargeUserNo;//监管机构用户名
@@ -24,7 +24,7 @@ public class ShiftInfo {
     private String chargeUserPwd;//监管机构密码
 
     @Column(name = "TRAININGAGENCYID")
-    private String trainingAgencyId;//培训机构ID
+    private Long trainingAgencyId;//培训机构ID
 
     @Column(name = "TRAININGAGENCYNAME")
     private String trainingAgencyName;//培训机构名称
@@ -70,11 +70,11 @@ public class ShiftInfo {
         this.id = id;
     }
 
-    public String getCourseId() {
+    public Long getCourseId() {
         return courseId;
     }
 
-    public void setCourseId(String courseId) {
+    public void setCourseId(Long courseId) {
         this.courseId = courseId;
     }
 
@@ -94,11 +94,11 @@ public class ShiftInfo {
         this.chargeUserPwd = chargeUserPwd;
     }
 
-    public String getTrainingAgencyId() {
+    public Long getTrainingAgencyId() {
         return trainingAgencyId;
     }
 
-    public void setTrainingAgencyId(String trainingAgencyId) {
+    public void setTrainingAgencyId(Long trainingAgencyId) {
         this.trainingAgencyId = trainingAgencyId;
     }
 

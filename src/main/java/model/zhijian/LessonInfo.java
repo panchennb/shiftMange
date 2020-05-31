@@ -2,13 +2,13 @@ package model.zhijian;
 
 public class LessonInfo {
 
-    private String kbsqId;//课程ID
+    private Long kbsqId;//课程ID
 
     private String userNo;//监管机构用户名
 
     private String userPwd;//监管机构密码
 
-    private String kbsqJgid;//培训机构ID
+    private Long kbsqJgid;//培训机构ID
 
     private String jgglName;//培训机构名称
 
@@ -22,11 +22,11 @@ public class LessonInfo {
 
     private String kbsqZygz;//工种名称
 
-    public String getKbsqId() {
+    public Long getKbsqId() {
         return kbsqId;
     }
 
-    public void setKbsqId(String kbsqId) {
+    public void setKbsqId(Long kbsqId) {
         this.kbsqId = kbsqId;
     }
 
@@ -46,11 +46,11 @@ public class LessonInfo {
         this.userPwd = userPwd;
     }
 
-    public String getKbsqJgid() {
+    public Long getKbsqJgid() {
         return kbsqJgid;
     }
 
-    public void setKbsqJgid(String kbsqJgid) {
+    public void setKbsqJgid(Long kbsqJgid) {
         this.kbsqJgid = kbsqJgid;
     }
 

@@ -15,13 +15,13 @@ public class Student {
     private String id;
 
     @Column(name = "STUDENTID")
-    private String studentId;//学员ID
+    private Long studentId;//学员ID
 
     @Column(name = "SHIFTINFOID")
     private String shiftInfoId;//课程UUID
 
     @Column(name = "COURSEID")
-    private String courseId;//课程ID
+    private Long courseId;//课程ID
 
     @Column(name = "USERNO")
     private String userNo;//登录账户
@@ -55,11 +55,11 @@ public class Student {
         this.id = id;
     }
 
-    public String getStudentId() {
+    public Long getStudentId() {
         return studentId;
     }
 
-    public void setStudentId(String studentId) {
+    public void setStudentId(Long studentId) {
         this.studentId = studentId;
     }
 
@@ -71,11 +71,11 @@ public class Student {
         this.shiftInfoId = shiftInfoId;
     }
 
-    public String getCourseId() {
+    public Long getCourseId() {
         return courseId;
     }
 
-    public void setCourseId(String courseId) {
+    public void setCourseId(Long courseId) {
         this.courseId = courseId;
     }
 

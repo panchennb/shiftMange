@@ -104,6 +104,7 @@ public class ZhiJianController {
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     private Object saveLessonInfo(HttpServletRequest request, @RequestBody Map<String, Object> planMap) {
+        LOGGER.info("savelessoninfo===== {}",planMap);
         String flg = "true";
         String errMsg = null;
 
@@ -111,7 +112,7 @@ public class ZhiJianController {
         LessonInfo lessonInfo = json2Object(mapJson.getJSONObject("kcxx"), LessonInfo.class);
         List<StudentInfo> studentInfos = json2List(mapJson.getJSONArray("xyxx"), StudentInfo.class);
         ShiftInfo shiftInfo = new ShiftInfo();
-        shiftInfo.setCourseId(lessonInfo.getKbsqId());
+        shiftInfo.setCourseId(Long.valueOf(lessonInfo.getKbsqId()));
         shiftInfo.setChargeUserNo(lessonInfo.getUserNo());
         shiftInfo.setChargeUserPwd(lessonInfo.getUserPwd());
         shiftInfo.setTrainingAgencyId(lessonInfo.getKbsqJgid());
@@ -132,7 +133,7 @@ public class ZhiJianController {
         ShiftInfo shift = shiftInterface.save(shiftInfo);
         for (StudentInfo studentInfo : studentInfos) {
             Student student = new Student();
-            student.setCourseId(lessonInfo.getKbsqId());
+            student.setCourseId(Long.valueOf(lessonInfo.getKbsqId()));
             student.setShiftInfoId(shift.getId());
             try {
                 student.setCreateDate(SDF_YMDHMS.parse(APIUtil.now()));

@@ -48,9 +48,15 @@ public class ShiftController {
         return shiftInfos;
     }
 
+    /**
+     * 培训机构开班统计信息
+     * @param page
+     * @param rows
+     * @return
+     */
     @RequestMapping("/showTrainingAgency")
     @ResponseBody
-    public List showTrainingAgency(@RequestParam Integer page,Integer rows){//培训机构开班统计信息
+    public List showTrainingAgency(@RequestParam Integer page,Integer rows){
         Query nativeQuery = entityManager.createNativeQuery("");
         nativeQuery.setFirstResult((page-1)*rows);
         nativeQuery.setMaxResults(rows);

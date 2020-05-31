@@ -2,7 +2,7 @@ package model.zhijian;
 
 public class StudentInfo {
 
-    private String kbxyXyid;//学员ID
+    private Long kbxyXyid;//学员ID
 
     private String userNo;//登录账户
 
@@ -14,11 +14,11 @@ public class StudentInfo {
 
     private String xyxxSfzh;//身份证号
 
-    public String getKbxyXyid() {
+    public Long getKbxyXyid() {
         return kbxyXyid;
     }
 
-    public void setKbxyXyid(String kbxyXyid) {
+    public void setKbxyXyid(Long kbxyXyid) {
         this.kbxyXyid = kbxyXyid;
     }
 
