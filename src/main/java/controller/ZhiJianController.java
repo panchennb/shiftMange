@@ -52,7 +52,7 @@ public class ZhiJianController {
     @RequestMapping(value = "/test", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public void setPersonalPlan(HttpServletRequest request, String test) {
+    public void test(HttpServletRequest request, String test) {
         LOGGER.info(test);
     }
 
@@ -104,57 +104,87 @@ public class ZhiJianController {
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     private Object saveLessonInfo(HttpServletRequest request, @RequestBody Map<String, Object> planMap) {
-        LOGGER.info("savelessoninfo===== {}",planMap);
+        LOGGER.info("savelessoninfo===== {}", planMap);
         String flg = "true";
         String errMsg = null;
 
         JSONObject mapJson = JSONObject.fromObject(planMap);
         LessonInfo lessonInfo = json2Object(mapJson.getJSONObject("kcxx"), LessonInfo.class);
         List<StudentInfo> studentInfos = json2List(mapJson.getJSONArray("xyxx"), StudentInfo.class);
-        ShiftInfo shiftInfo = new ShiftInfo();
-        shiftInfo.setCourseId(Long.valueOf(lessonInfo.getKbsqId()));
-        shiftInfo.setChargeUserNo(lessonInfo.getUserNo());
-        shiftInfo.setChargeUserPwd(lessonInfo.getUserPwd());
-        shiftInfo.setTrainingAgencyId(lessonInfo.getKbsqJgid());
-        shiftInfo.setTrainingAgencyName(lessonInfo.getJgglName());
+        // 同步课程
+        // 检查课程是否已同步
+        ShiftInfo shiftInfoFromDB = shiftInterface.findByCourseId(lessonInfo.getKbsqId());
+        ShiftInfo newShiftInfo = new ShiftInfo();
         try {
-            shiftInfo.setCourseStartDate(SDF_YMD.parse(lessonInfo.getKbsqKssj()));
-            shiftInfo.setCourseEndDate(SDF_YMD.parse(lessonInfo.getKbsqJssj()));
-            shiftInfo.setCreateDate(SDF_YMDHMS.parse(APIUtil.now()));
-            shiftInfo.setUpdateDate(SDF_YMDHMS.parse(APIUtil.now()));
+            if (shiftInfoFromDB != null) {
+                newShiftInfo = getNewShiftInfo(shiftInfoFromDB, lessonInfo);
+            } else {
+                ShiftInfo shiftInfo = new ShiftInfo();
+                shiftInfo.setCreateDate(SDF_YMDHMS.parse(APIUtil.now()));
+                newShiftInfo = getNewShiftInfo(shiftInfo, lessonInfo);
+            }
         } catch (ParseException e) {
             LOGGER.error(e.toString());
             flg = "false";
             errMsg = e.getMessage();
         }
-        shiftInfo.setCourseHours(lessonInfo.getKbsqXs());
-        shiftInfo.setCourseName(lessonInfo.getKbsqKcmc());
-        shiftInfo.setWorkType(lessonInfo.getKbsqZygz());
-        ShiftInfo shift = shiftInterface.save(shiftInfo);
+        ShiftInfo shift = shiftInterface.save(newShiftInfo);
+        // 同步学员
+        // 检查学员是否已同步
+        List<Student> studentsFromDB = studentInterface.findByShiftInfoId(shift.getId());
         for (StudentInfo studentInfo : studentInfos) {
-            Student student = new Student();
-            student.setCourseId(Long.valueOf(lessonInfo.getKbsqId()));
-            student.setShiftInfoId(shift.getId());
             try {
-                student.setCreateDate(SDF_YMDHMS.parse(APIUtil.now()));
-                student.setUpdateDate(SDF_YMDHMS.parse(APIUtil.now()));
+                Student newStudent = null;
+                for (Student studentFromDB : studentsFromDB) {
+                    if (studentFromDB.getStudentId().equals(studentInfo.getKbxyXyid())) {
+                        newStudent = getNewStudent(studentFromDB, studentInfo);
+                        break;
+                    }
+                }
+                if (newStudent == null) {
+                    newStudent = new Student();
+                    newStudent.setCourseId(shift.getCourseId());
+                    newStudent.setShiftInfoId(shift.getId());
+                    newStudent.setCreateDate(SDF_YMDHMS.parse(APIUtil.now()));
+                    newStudent = getNewStudent(newStudent, studentInfo);
+                }
+                studentInterface.save(newStudent);
             } catch (ParseException e) {
                 LOGGER.error(e.toString());
                 flg = "false";
                 errMsg = e.getMessage();
             }
-            student.setIdCard(studentInfo.getXyxxSfzh());
-            student.setName(studentInfo.getXyxxName());
-            student.setUserNo(studentInfo.getUserNo());
-            student.setPhone(studentInfo.getXyxxLxdh());
-            student.setStudentId(studentInfo.getKbxyXyid());
-            student.setUserPass(studentInfo.getUserPass());
-            studentInterface.save(student);
         }
         Map<String, Object> result = new HashMap<>();
         result.put("flg", flg);
         result.put("errMsg", errMsg);
         return result;
+    }
+
+    private Student getNewStudent(Student student, StudentInfo studentInfo) throws ParseException {
+        student.setUpdateDate(SDF_YMDHMS.parse(APIUtil.now()));
+        student.setIdCard(studentInfo.getXyxxSfzh());
+        student.setName(studentInfo.getXyxxName());
+        student.setUserNo(studentInfo.getUserNo());
+        student.setPhone(studentInfo.getXyxxLxdh());
+        student.setStudentId(studentInfo.getKbxyXyid());
+        student.setUserPass(studentInfo.getUserPass());
+        return student;
+    }
+
+    private ShiftInfo getNewShiftInfo(ShiftInfo shiftInfo, LessonInfo lessonInfo) throws ParseException {
+        shiftInfo.setCourseId(lessonInfo.getKbsqId());
+        shiftInfo.setChargeUserNo(lessonInfo.getUserNo());
+        shiftInfo.setChargeUserPwd(lessonInfo.getUserPwd());
+        shiftInfo.setTrainingAgencyId(lessonInfo.getKbsqJgid());
+        shiftInfo.setTrainingAgencyName(lessonInfo.getJgglName());
+        shiftInfo.setCourseStartDate(SDF_YMD.parse(lessonInfo.getKbsqKssj()));
+        shiftInfo.setCourseEndDate(SDF_YMD.parse(lessonInfo.getKbsqJssj()));
+        shiftInfo.setUpdateDate(SDF_YMDHMS.parse(APIUtil.now()));
+        shiftInfo.setCourseHours(lessonInfo.getKbsqXs());
+        shiftInfo.setCourseName(lessonInfo.getKbsqKcmc());
+        shiftInfo.setWorkType(lessonInfo.getKbsqZygz());
+        return shiftInfo;
     }
 
     /**
