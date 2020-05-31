@@ -32,6 +32,10 @@ public class ShiftController {
     @PersistenceContext
     private EntityManager entityManager;
 
+    /**
+     * 开班信息列表页
+     * @return
+     */
     @RequestMapping("/index")
     public String index() {//开班信息列表页
         return "index";
@@ -46,14 +50,34 @@ public class ShiftController {
         return "statistics";
     }
 
+    /**
+     * 开班信息列表
+     * @param page
+     * @param rows
+     * @return
+     */
     @RequestMapping(value="/showShift", method = RequestMethod.POST)
     @ResponseBody
-    public Page showShift(@RequestParam Integer page,Integer rows){
+    public List showShift(@RequestParam Integer isRelated,Integer isJoin,Long trainingAgencyId,String courseName, Integer page,Integer rows){
         log.info("showShift {} {}",page,rows);
-        //显示开班信息
-        Sort sort = Sort.by(Sort.Direction.ASC,"courseId");
-        Page<ShiftInfo> shiftInfos = shiftInterface.findAll(PageRequest.of(page-1,rows,sort));
-        return shiftInfos;
+        StringBuffer sql = new StringBuffer("select * from t_shiftinfo where courseName like CONCAT('%',?1,'%') ");
+        if(isRelated != null){
+            sql.append(" and isrelated = "+isRelated);
+        }
+        if(isJoin != null){
+            sql.append(" and isjoin = "+isJoin);
+        }
+        if(trainingAgencyId != null){
+            sql.append(" and trainingagencyid = "+trainingAgencyId);
+        }
+        Query nativeQuery = entityManager.createNativeQuery(sql.toString()).unwrap(SQLQuery.class).setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
+        nativeQuery.setParameter(1,courseName);
+        nativeQuery.setFirstResult((page-1)*rows);
+        nativeQuery.setMaxResults(rows);
+        List resultList = nativeQuery.getResultList();
+//        Sort sort = Sort.by(Sort.Direction.ASC,"courseId");
+//        Page<ShiftInfo> shiftInfos = shiftInterface.findAll(PageRequest.of(page-1,rows,sort));
+        return resultList;
     }
 
     /**
@@ -64,13 +88,41 @@ public class ShiftController {
      */
     @RequestMapping("/showTrainingAgency")
     @ResponseBody
-    public List showTrainingAgency(@RequestParam Integer page,Integer rows){
-        log.info("showTrainingAgency=== {} {}",page,rows);
-        Query nativeQuery = entityManager.createNativeQuery("select trainingagencyid,trainingagencyname,count(*) as totalCourse," +
-                "MAX(coursestartdate) as lastStartDate,sum(coursehours) as totalHours,\n" +
-                "(select count(*) from t_student b where b.trainingagencyid = a.trainingagencyid) as totalStudent \n" +
-                "from t_shiftinfo a\n" +
-                "group by a.trainingagencyid").unwrap(SQLQuery.class).setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
+    public List showTrainingAgency(@RequestParam Long trainingAgencyId,String trainingAgencyName, Integer page,Integer rows){
+        log.info("showTrainingAgency=== {} {}",trainingAgencyId,trainingAgencyName);
+        StringBuffer sql = new StringBuffer("select trainingagencyid,trainingagencyname,count(*) as totalCourse," +
+                "MAX(coursestartdate) as lastStartDate,sum(coursehours) as totalHours," +
+                "(select count(*) from t_student b where b.trainingagencyid = a.trainingagencyid) as totalStudent " +
+                "from t_shiftinfo a where a.trainingAgencyName like CONCAT('%',?1,'%')");
+        if(trainingAgencyId != null){
+            sql.append(" and a.trainingAgencyId = "+trainingAgencyId);
+        }
+        sql.append(" group by a.trainingagencyid");
+        Query nativeQuery = entityManager.createNativeQuery(sql.toString()).unwrap(SQLQuery.class).setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
+        nativeQuery.setParameter(1,trainingAgencyName);
+        nativeQuery.setFirstResult((page-1)*rows);
+        nativeQuery.setMaxResults(rows);
+        List resultList = nativeQuery.getResultList();
+        return resultList;
+    }
+
+    /**
+     * 查询机构开班明细
+     * @param trainingagencyId
+     * @param page
+     * @param rows
+     * @return
+     */
+    @RequestMapping("/showTrainingData")
+    @ResponseBody
+    public List showTrainingData(@RequestParam Long trainingagencyId,String courseName,Integer page,Integer rows){
+        log.info("showTrainingAgency=== {} {}",trainingagencyId,courseName);
+        StringBuffer sql = new StringBuffer("select coursename,coursestartdate,courseenddate,coursehours,worktype," +
+                "(select COUNT(*) from t_student b where a.courseid = b.courseid) as studentNum,studyPlanName " +
+                "from t_shiftinfo a where a.trainingagencyid = ?1 and courseName like CONCAT('%',?2,'%')");
+        Query nativeQuery = entityManager.createNativeQuery(sql.toString()).unwrap(SQLQuery.class).setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
+        nativeQuery.setParameter(1,trainingagencyId);
+        nativeQuery.setParameter(2,courseName);
         nativeQuery.setFirstResult((page-1)*rows);
         nativeQuery.setMaxResults(rows);
         List resultList = nativeQuery.getResultList();
