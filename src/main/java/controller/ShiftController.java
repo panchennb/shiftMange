@@ -10,6 +10,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -19,6 +20,7 @@ import javax.persistence.Query;
 import java.util.List;
 
 @Controller
+@RequestMapping("/shift")
 public class ShiftController {
     private static final Logger log = LoggerFactory.getLogger(ShiftController.class);
 
@@ -33,17 +35,21 @@ public class ShiftController {
         return "index";
     }
 
+    /**
+     * //培训机构开班信息统计页
+     * @return
+     */
     @RequestMapping("/statistics")
-    public String statistics() {//培训机构开班信息统计页
+    public String statistics() {
         return "statistics";
     }
 
-    @RequestMapping("/showShift")
+    @RequestMapping(value="/showShift", method = RequestMethod.POST)
     @ResponseBody
     public Page showShift(@RequestParam Integer page,Integer rows){
         log.info("showShift {} {}",page,rows);
         //显示开班信息
-        Sort sort = Sort.by(Sort.Direction.ASC,"id");
+        Sort sort = Sort.by(Sort.Direction.ASC,"courseId");
         Page<ShiftInfo> shiftInfos = shiftInterface.findAll(PageRequest.of(page-1,rows,sort));
         return shiftInfos;
     }
