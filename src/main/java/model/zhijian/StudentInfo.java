@@ -1,5 +1,8 @@
 package model.zhijian;
 
+/**
+ * 学员信息
+ */
 public class StudentInfo {
 
     private Long kbxyXyid;//学员ID
