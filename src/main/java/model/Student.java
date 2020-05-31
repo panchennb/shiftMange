@@ -23,6 +23,9 @@ public class Student {
     @Column(name = "COURSEID")
     private Long courseId;//课程ID
 
+    @Column(name = "TRAININGAGENCYID")
+    private Long trainingAgencyId;//培训机构ID
+
     @Column(name = "USERNO")
     private String userNo;//登录账户
 
@@ -141,5 +144,13 @@ public class Student {
 
     public void setIsJoin(Integer isJoin) {
         this.isJoin = isJoin;
+    }
+
+    public void setTrainingAgencyId(Long trainingAgencyId) {
+        this.trainingAgencyId = trainingAgencyId;
+    }
+
+    public Long getTrainingAgencyId() {
+        return trainingAgencyId;
     }
 }

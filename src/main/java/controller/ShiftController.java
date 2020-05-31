@@ -2,6 +2,8 @@ package controller;
 
 import Service.ShiftInterface;
 import model.ShiftInfo;
+import org.hibernate.SQLQuery;
+import org.hibernate.transform.AliasToEntityMapResultTransformer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,7 +65,12 @@ public class ShiftController {
     @RequestMapping("/showTrainingAgency")
     @ResponseBody
     public List showTrainingAgency(@RequestParam Integer page,Integer rows){
-        Query nativeQuery = entityManager.createNativeQuery("");
+        log.info("showTrainingAgency=== {} {}",page,rows);
+        Query nativeQuery = entityManager.createNativeQuery("select trainingagencyid,trainingagencyname,count(*) as totalCourse," +
+                "MAX(coursestartdate) as lastStartDate,sum(coursehours) as totalHours,\n" +
+                "(select count(*) from t_student b where b.trainingagencyid = a.trainingagencyid) as totalStudent \n" +
+                "from t_shiftinfo a\n" +
+                "group by a.trainingagencyid").unwrap(SQLQuery.class).setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
         nativeQuery.setFirstResult((page-1)*rows);
         nativeQuery.setMaxResults(rows);
         List resultList = nativeQuery.getResultList();

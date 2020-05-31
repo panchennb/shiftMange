@@ -137,7 +137,7 @@ public class ZhiJianController {
                 Student newStudent = null;
                 for (Student studentFromDB : studentsFromDB) {
                     if (studentFromDB.getStudentId().equals(studentInfo.getKbxyXyid())) {
-                        newStudent = getNewStudent(studentFromDB, studentInfo);
+                        newStudent = getNewStudent(studentFromDB, studentInfo,shift);
                         break;
                     }
                 }
@@ -146,7 +146,7 @@ public class ZhiJianController {
                     newStudent.setCourseId(shift.getCourseId());
                     newStudent.setShiftInfoId(shift.getId());
                     newStudent.setCreateDate(SDF_YMDHMS.parse(APIUtil.now()));
-                    newStudent = getNewStudent(newStudent, studentInfo);
+                    newStudent = getNewStudent(newStudent, studentInfo,shift);
                 }
                 studentInterface.save(newStudent);
             } catch (ParseException e) {
@@ -161,7 +161,7 @@ public class ZhiJianController {
         return result;
     }
 
-    private Student getNewStudent(Student student, StudentInfo studentInfo) throws ParseException {
+    private Student getNewStudent(Student student, StudentInfo studentInfo,ShiftInfo shiftInfo) throws ParseException {
         student.setUpdateDate(SDF_YMDHMS.parse(APIUtil.now()));
         student.setIdCard(studentInfo.getXyxxSfzh());
         student.setName(studentInfo.getXyxxName());
@@ -169,6 +169,7 @@ public class ZhiJianController {
         student.setPhone(studentInfo.getXyxxLxdh());
         student.setStudentId(studentInfo.getKbxyXyid());
         student.setUserPass(studentInfo.getUserPass());
+        student.setTrainingAgencyId(shiftInfo.getTrainingAgencyId());
         return student;
     }
 
