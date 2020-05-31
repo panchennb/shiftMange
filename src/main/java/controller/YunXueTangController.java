@@ -172,6 +172,12 @@ public class YunXueTangController {
         }
     }
 
+    /**
+     * 3.开班确认回调接口
+     *
+     * @param shift
+     * @param param
+     */
     private void returnStudyPlan(ShiftInfo shift, ShiftRelateInfo param) {
         try {
             Object tokenReturn = ZhiJianController.getToken(USERNO, USERPWD);

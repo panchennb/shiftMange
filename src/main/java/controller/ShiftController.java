@@ -1,7 +1,9 @@
 package controller;
 
 import Service.ShiftInterface;
+import model.ConditionParam;
 import model.ShiftInfo;
+import org.apache.commons.lang.StringUtils;
 import org.hibernate.SQLQuery;
 import org.hibernate.transform.AliasToEntityMapResultTransformer;
 import org.slf4j.Logger;
@@ -11,10 +13,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -48,6 +47,37 @@ public class ShiftController {
     @RequestMapping("/statistics")
     public String statistics() {
         return "statistics";
+    }
+
+    /**
+     * 开班信息列表-wangyang
+     * @param page
+     * @param rows
+     * @return
+     */
+    @RequestMapping(value="/showshift", method = RequestMethod.POST)
+    @ResponseBody
+    public List showShift(@RequestBody ConditionParam param, int page, int rows){
+//        public List showShift(@RequestParam Integer isRelated,Integer isJoin,Long trainingAgencyId,String courseName, Integer page,Integer rows){
+        log.info("showShift {} {}",page,rows);
+        StringBuffer sql = new StringBuffer("select * from t_shiftinfo where courseName like CONCAT('%',?1,'%') ");
+        if(param.getIsRelated() != null){
+            sql.append(" and isrelated = "+param.getIsRelated());
+        }
+        if(param.getIsJoin() != null){
+            sql.append(" and isjoin = "+param.getIsJoin());
+        }
+        if(param.getTrainingAgencyId() != null){
+            sql.append(" and trainingagencyid = "+param.getTrainingAgencyId());
+        }
+        Query nativeQuery = entityManager.createNativeQuery(sql.toString()).unwrap(SQLQuery.class).setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
+        nativeQuery.setParameter(1, StringUtils.isBlank(param.getCourseName())?"":param.getCourseName());
+        nativeQuery.setFirstResult(page*rows);
+        nativeQuery.setMaxResults(rows);
+        List resultList = nativeQuery.getResultList();
+//        Sort sort = Sort.by(Sort.Direction.ASC,"courseId");
+//        Page<ShiftInfo> shiftInfos = shiftInterface.findAll(PageRequest.of(page-1,rows,sort));
+        return resultList;
     }
 
     /**
