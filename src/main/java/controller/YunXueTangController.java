@@ -2,11 +2,15 @@ package controller;
 
 import Service.ShiftInterface;
 import Service.StudentInterface;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import model.ShiftInfo;
 import model.ShiftRelateInfo;
 import model.Student;
 import model.yxt.ResultJavaEntity;
+import model.yxt.StudyPlanPhaseKnowModel;
 import model.yxt.UserInfoJavaModel;
+import model.zhijian.LessonScheduleInfo;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.slf4j.Logger;
@@ -24,10 +28,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 @RequestMapping("yxt")
@@ -36,25 +37,30 @@ public class YunXueTangController {
 
     private static final SimpleDateFormat SDF_YMDHMS = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
-    private static final String CHECK_USER_URL = "https://api-qida.yunxuetang.cn/v1/udp/sy/sv/cku";
-    private static final String USER_ADD_STUDYPLAN_URL = "http://api.yunxuetang.cn/el/sty/addpersontoplan";
+    private static final String CHECK_USER_URL = "http://api-qidac1.yunxuetang.cn/v1/udp/sy/sv/cku";
+    private static final String USER_ADD_STUDYPLAN_URL = "http://apic1.yunxuetang.cn/el/sty/addpersontoplan";
+    private static final String YXT_STUDYPLAN_PHASE_KNOW = "https://api-qidacustomc1.yunxuetang.cn/v1/heji/getstudyplanphaseknowledgelist";
 
-    private static final String URL_PREIX = "http://IP:端口/tomp";
+    private static final String URL_PREIX = "http://36.49.92.140:8081/tomp";
     private static final String KBQR_URL = URL_PREIX + "/visitors/saveZjsz";
 
-    private static final String APIKEY = "1eec01df-0e9c-4ae5-b6dc-8614fe75458c";
+    private static final String APIKEY = "775306d8-0618-4ba9-ab7e-e595dd8f108d";
     private static final String SALT = "123";
-    private static final String SECRETKEY = "6116b0ab-a136-474d-a7b3-d80c13c3294c";
-    private static final String BASE_URL = "https://api-qida.yunxuetang.cn/v1/";
+    private static final String SECRETKEY = "7a343488-9457-4f31-813d-2d97e61c2d6a";
+    private static final String BASE_URL = "http://api-qidac1.yunxuetang.cn/v1/";
 
-    private static final String USERNO = "";
-    private static final String USERPWD = "";
+    private static final String USERNO = "yxt";
+    private static final String USERPWD = "yxt";
+
+    /**
+     * json解析用
+     */
+    private ObjectMapper mapper = new ObjectMapper();
 
     @Autowired
     private ShiftInterface shiftInterface;
     @Autowired
     private StudentInterface studentInterface;
-
 
     /**
      * 关联学习计划
@@ -160,6 +166,7 @@ public class YunXueTangController {
                 user.setUserName(student.getUserNo());
                 user.setMobile(student.getPhone());
                 user.setSpare1(student.getIdCard());
+                user.setPassword(student.getUserPass());
                 users2Add.add(user);
             }
         }
@@ -185,8 +192,38 @@ public class YunXueTangController {
             String token = tokenJson.getString("data");
             String dsptKcszId = shift.getCourseId().toString();// 课程ID
             String dsptJgjg = shift.getTrainingAgencyName();// 监管机构
-            List<Map<String, Object>> kbxx = new ArrayList<>();// 课表信息
-            // TODO 获取计划阶段及内容
+            // 获取学习计划阶段及课程
+            JSONObject json = new JSONObject();
+            json.put("apikey", APIKEY);
+            json.put("salt", SALT);
+            json.put("signature", QidaSHA256.SHA256Encrypt(SECRETKEY + SALT));
+            json.put("planID", param.getStudyPlanId());
+            String lessonScheduleString = OKHttp2Utils.postJson(YXT_STUDYPLAN_PHASE_KNOW, json.toString());
+            List<StudyPlanPhaseKnowModel> list = mapper.readValue(lessonScheduleString, new TypeReference<List<StudyPlanPhaseKnowModel>>() {
+            });
+            Set<LessonScheduleInfo> infos = new HashSet<LessonScheduleInfo>();
+            for (StudyPlanPhaseKnowModel model : list) {
+                String name = model.getName();
+                Integer phaseStudyHours = model.getPhaseStudyHours();
+                Integer index = model.getPhaseOrderIndex();
+                String masterTitle = model.getMastertitle();
+                Integer studyHours = model.getStudyHours();
+                Integer orderIndex = model.getOrderIndex();
+                LessonScheduleInfo info = new LessonScheduleInfo();
+                info.setDsptBh(index);
+                info.setDsptZjszId(index.toString());
+                info.setDsptZjszLevel("1");
+                info.setDsptZjszName(name);
+                info.setExt1(phaseStudyHours);
+                infos.add(info);
+                info.setDsptBh(orderIndex);
+                info.setDsptZjszId(index.toString());
+                info.setDsptZjszLevel("2");
+                info.setDsptZjszName(masterTitle);
+                info.setExt1(studyHours);
+                infos.add(info);
+            }
+            List<LessonScheduleInfo> kbxx = new ArrayList<LessonScheduleInfo>(infos);// 课表信息
             Map<String, Object> params = new HashMap<>();
             params.put("token", token);
             params.put("dsptKcszId", dsptKcszId);

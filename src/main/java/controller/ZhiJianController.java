@@ -26,19 +26,20 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+
 @Controller
 @RequestMapping("zhijian")
 public class ZhiJianController {
     private static final Logger LOGGER = LoggerFactory.getLogger(ZhiJianController.class);
 
-    private static final String URL_PREIX = "http://IP:端口/tomp";
+    private static final String URL_PREIX = "http://36.49.92.140:8081/tomp";
     private static final String TOKEN_URL = URL_PREIX + "/check/getToken";
     private static final String KBQR_URL = URL_PREIX + "/visitors/saveZjsz";
     private static final String KZJG_URL = URL_PREIX + "/Dsfkcjg/kcjgadd";
     private static final String JYKH_URL = URL_PREIX + "/Examination/assess";
 
-    private static final String USERNO = "";
-    private static final String USERPWD = "";
+    private static final String USERNO = "yxt";
+    private static final String USERPWD = "yxt";
 
     private static final SimpleDateFormat SDF_YMD = new SimpleDateFormat("yyyy-MM-dd");
     private static final SimpleDateFormat SDF_YMDHMS = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -59,7 +60,7 @@ public class ZhiJianController {
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public Object setPersonalPlan(HttpServletRequest request, @RequestBody Map<String, String> param) {
+    public Object login(HttpServletRequest request, @RequestBody Map<String, String> param) {
         String userNo = param.get("userNo");
         String userPwd = param.get("userPwd");
         Object result = null;
@@ -130,7 +131,7 @@ public class ZhiJianController {
                 Student newStudent = null;
                 for (Student studentFromDB : studentsFromDB) {
                     if (studentFromDB.getStudentId().equals(studentInfo.getKbxyXyid())) {
-                        newStudent = getNewStudent(studentFromDB, studentInfo,shift);
+                        newStudent = getNewStudent(studentFromDB, studentInfo, shift);
                         break;
                     }
                 }
@@ -139,7 +140,7 @@ public class ZhiJianController {
                     newStudent.setCourseId(shift.getCourseId());
                     newStudent.setShiftInfoId(shift.getId());
                     newStudent.setCreateDate(SDF_YMDHMS.parse(APIUtil.now()));
-                    newStudent = getNewStudent(newStudent, studentInfo,shift);
+                    newStudent = getNewStudent(newStudent, studentInfo, shift);
                 }
                 studentInterface.save(newStudent);
             } catch (ParseException e) {
@@ -154,7 +155,7 @@ public class ZhiJianController {
         return result;
     }
 
-    private Student getNewStudent(Student student, StudentInfo studentInfo,ShiftInfo shiftInfo) throws ParseException {
+    private Student getNewStudent(Student student, StudentInfo studentInfo, ShiftInfo shiftInfo) throws ParseException {
         student.setUpdateDate(SDF_YMDHMS.parse(APIUtil.now()));
         student.setIdCard(studentInfo.getXyxxSfzh());
         student.setName(studentInfo.getXyxxName());
