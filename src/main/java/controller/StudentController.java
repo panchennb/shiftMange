@@ -61,6 +61,7 @@ public class StudentController {
 //        List<Student> studentList = studentInterface.findByCourseId(courseId,PageRequest.of(page-1,rows,sort));
         map.put("shift",shift);
         map.put("studentList",studentList);
+        map.put("totalNum",studentList.size());
         return map;
     }
 

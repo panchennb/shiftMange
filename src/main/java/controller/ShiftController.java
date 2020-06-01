@@ -57,9 +57,10 @@ public class ShiftController {
      */
     @RequestMapping(value="/showshift", method = RequestMethod.POST)
     @ResponseBody
-    public List showShift(@RequestBody ConditionParam param, int page, int rows){
+    public HashMap showShift(@RequestBody ConditionParam param, int page, int rows){
 //        public List showShift(@RequestParam Integer isRelated,Integer isJoin,Long trainingAgencyId,String courseName, Integer page,Integer rows){
         log.info("showShift {} {}",page,rows);
+        HashMap map = new HashMap();
         StringBuffer sql = new StringBuffer("select * from t_shiftinfo where courseName like CONCAT('%',?1,'%') ");
         if(param.getIsRelated() != null){
             sql.append(" and isrelated = "+param.getIsRelated());
@@ -75,9 +76,11 @@ public class ShiftController {
         nativeQuery.setFirstResult(page*rows);
         nativeQuery.setMaxResults(rows);
         List resultList = nativeQuery.getResultList();
+        map.put("resultList",resultList);
+        map.put("totalNum",resultList.size());
 //        Sort sort = Sort.by(Sort.Direction.ASC,"courseId");
 //        Page<ShiftInfo> shiftInfos = shiftInterface.findAll(PageRequest.of(page-1,rows,sort));
-        return resultList;
+        return map;
     }
 
     /**
@@ -88,8 +91,9 @@ public class ShiftController {
      */
     @RequestMapping(value="/showShift", method = RequestMethod.POST)
     @ResponseBody
-    public List showShift(@RequestParam Integer isRelated,Integer isJoin,Long trainingAgencyId,String courseName, Integer page,Integer rows){
+    public HashMap showShift(@RequestParam Integer isRelated,Integer isJoin,Long trainingAgencyId,String courseName, Integer page,Integer rows){
         log.info("showShift {} {}",page,rows);
+        HashMap map = new HashMap();
         StringBuffer sql = new StringBuffer("select * from t_shiftinfo where courseName like CONCAT('%',?1,'%') ");
         if(isRelated != null){
             sql.append(" and isrelated = "+isRelated);
@@ -105,9 +109,11 @@ public class ShiftController {
         nativeQuery.setFirstResult((page-1)*rows);
         nativeQuery.setMaxResults(rows);
         List resultList = nativeQuery.getResultList();
+        map.put("resultList",resultList);
+        map.put("totalNum",resultList.size());
 //        Sort sort = Sort.by(Sort.Direction.ASC,"courseId");
 //        Page<ShiftInfo> shiftInfos = shiftInterface.findAll(PageRequest.of(page-1,rows,sort));
-        return resultList;
+        return map;
     }
 
     /**
@@ -118,8 +124,9 @@ public class ShiftController {
      */
     @RequestMapping("/showTrainingAgency")
     @ResponseBody
-    public List showTrainingAgency(@RequestParam Long trainingAgencyId,String trainingAgencyName, Integer page,Integer rows){
-        log.info("showTrainingAgency=== {} {}",trainingAgencyId,trainingAgencyName);
+    public List showTrainingAgency(@RequestParam Long trainingAgencyId,String trainingAgencyName, Integer page,Integer rows,String sortName,String sortOrder){
+        log.info("showTrainingAgency=== {} {} {} {}",trainingAgencyId,trainingAgencyName,sortName,sortOrder);
+        HashMap map = new HashMap();
         StringBuffer sql = new StringBuffer("select trainingagencyid,trainingagencyname,count(*) as totalCourse," +
                 "MAX(coursestartdate) as lastStartDate,sum(coursehours) as totalHours," +
                 "(select count(*) from t_student b where b.trainingagencyid = a.trainingagencyid) as totalStudent " +
@@ -128,11 +135,18 @@ public class ShiftController {
             sql.append(" and a.trainingAgencyId = "+trainingAgencyId);
         }
         sql.append(" group by a.trainingagencyid");
+        if(StringUtils.isNotBlank(sortName)){
+            sql.append(" order by "+sortName+" "+sortOrder);
+        }else{
+            sql.append(" order by totalCourse DESC");
+        }
         Query nativeQuery = entityManager.createNativeQuery(sql.toString()).unwrap(SQLQuery.class).setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
         nativeQuery.setParameter(1,trainingAgencyName);
         nativeQuery.setFirstResult((page-1)*rows);
         nativeQuery.setMaxResults(rows);
         List resultList = nativeQuery.getResultList();
+        map.put("resultList",resultList);
+        map.put("totalNum",resultList.size());
         return resultList;
     }
 
@@ -145,8 +159,9 @@ public class ShiftController {
      */
     @RequestMapping("/showTrainingData")
     @ResponseBody
-    public List showTrainingData(@RequestParam Long trainingagencyId,String courseName,Integer page,Integer rows){
+    public HashMap showTrainingData(@RequestParam Long trainingagencyId,String courseName,Integer page,Integer rows){
         log.info("showTrainingAgency=== {} {}",trainingagencyId,courseName);
+        HashMap map = new HashMap();
         StringBuffer sql = new StringBuffer("select coursename,coursestartdate,courseenddate,coursehours,worktype," +
                 "(select COUNT(*) from t_student b where a.courseid = b.courseid) as studentNum,studyPlanName " +
                 "from t_shiftinfo a where a.trainingagencyid = ?1 and courseName like CONCAT('%',?2,'%')");
@@ -156,7 +171,9 @@ public class ShiftController {
         nativeQuery.setFirstResult((page-1)*rows);
         nativeQuery.setMaxResults(rows);
         List resultList = nativeQuery.getResultList();
-        return resultList;
+        map.put("resultList",resultList);
+        map.put("totalNum",resultList.size());
+        return map;
     }
 
 }
