@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import java.util.HashMap;
 import java.util.List;
 
 @Controller
@@ -124,7 +125,7 @@ public class ShiftController {
      */
     @RequestMapping("/showTrainingAgency")
     @ResponseBody
-    public List showTrainingAgency(@RequestParam Long trainingAgencyId,String trainingAgencyName, Integer page,Integer rows,String sortName,String sortOrder){
+    public HashMap showTrainingAgency(@RequestParam Long trainingAgencyId,String trainingAgencyName, Integer page,Integer rows,String sortName,String sortOrder){
         log.info("showTrainingAgency=== {} {} {} {}",trainingAgencyId,trainingAgencyName,sortName,sortOrder);
         HashMap map = new HashMap();
         StringBuffer sql = new StringBuffer("select trainingagencyid,trainingagencyname,count(*) as totalCourse," +
@@ -147,7 +148,7 @@ public class ShiftController {
         List resultList = nativeQuery.getResultList();
         map.put("resultList",resultList);
         map.put("totalNum",resultList.size());
-        return resultList;
+        return map;
     }
 
     /**
