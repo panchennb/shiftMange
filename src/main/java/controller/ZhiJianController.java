@@ -84,7 +84,7 @@ public class ZhiJianController {
         Map<String, Object> params = new HashMap<>();
         params.put("userNo", userNo);
         params.put("userPwd", userPwd);
-        return OKHttp2Utils.postJson(TOKEN_URL, params.toString());
+        return OKHttp2Utils.postJson(TOKEN_URL, JSONObject.fromObject(params).toString());
     }
 
     /**
