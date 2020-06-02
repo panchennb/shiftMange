@@ -37,6 +37,7 @@ public class ShiftController {
      */
     @RequestMapping(value = "/showshift", method = RequestMethod.POST)
     @ResponseBody
+    @CrossOrigin
     public Object showShift(@RequestBody ConditionParam param, int page, int rows) {
         log.info("showShift {} {},param:{}", page, rows, param);
         HashMap map = new HashMap();
@@ -69,6 +70,7 @@ public class ShiftController {
      */
     @RequestMapping(value = "/showShift", method = RequestMethod.POST)
     @ResponseBody
+    @CrossOrigin
     public HashMap showShift(@RequestParam Integer isRelated, Integer isJoin, Long trainingAgencyId, String courseName, Integer page, Integer rows) {
         log.info("showShift {} {}", page, rows);
         HashMap map = new HashMap();
@@ -104,6 +106,7 @@ public class ShiftController {
      */
     @RequestMapping("/showtrainingagency")
     @ResponseBody
+    @CrossOrigin
     public Object showTrainingAgency(@RequestBody ConditionParam param, int page, int rows) {
         log.info("showTrainingAgency {} {},param:{}", page, rows, param);
         HashMap map = new HashMap();
@@ -136,6 +139,7 @@ public class ShiftController {
      */
     @RequestMapping("/showTrainingAgency")
     @ResponseBody
+    @CrossOrigin
     public HashMap showTrainingAgency(@RequestParam Long trainingAgencyId, String trainingAgencyName, Integer page, Integer rows, String sortName, String sortOrder) {
         log.info("showTrainingAgency=== {} {} {} {}", trainingAgencyId, trainingAgencyName, sortName, sortOrder);
         HashMap map = new HashMap();
@@ -162,9 +166,17 @@ public class ShiftController {
         return map;
     }
 
-
+    /**
+     * 查询机构开班明细
+     *
+     * @param param
+     * @param page
+     * @param rows
+     * @return
+     */
     @RequestMapping("/showtrainingdata")
     @ResponseBody
+    @CrossOrigin
     public Object showTrainingData(@RequestBody ConditionParam param, int page, int rows) {
         log.info("showTrainingData {} {},param:{}", page, rows, param);
         HashMap map = new HashMap();
@@ -192,6 +204,7 @@ public class ShiftController {
      */
     @RequestMapping("/showTrainingData")
     @ResponseBody
+    @CrossOrigin
     public HashMap showTrainingData(@RequestParam Long trainingagencyId, String courseName, Integer page, Integer rows) {
         log.info("showTrainingAgency=== {} {}", trainingagencyId, courseName);
         HashMap map = new HashMap();
@@ -209,4 +222,19 @@ public class ShiftController {
         return map;
     }
 
+    /**
+     * 培训机构筛选下拉框
+     *
+     * @return
+     */
+    @RequestMapping("/gettrainingagency")
+    @ResponseBody
+    @CrossOrigin
+    public Object getTrainingAgency() {
+        log.info("showTrainingData");
+        StringBuffer sql = new StringBuffer("select distinct trainingagencyname,trainingagencyid from t_shiftinfo");
+        Query nativeQuery = entityManager.createNativeQuery(sql.toString()).unwrap(SQLQuery.class).setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
+        List resultList = nativeQuery.getResultList();
+        return resultList;
+    }
 }

@@ -44,6 +44,7 @@ public class StudentController {
      */
     @RequestMapping(value = "/showstudent", method = RequestMethod.POST)
     @ResponseBody
+    @CrossOrigin
     public HashMap showStudent(@RequestBody ConditionParam param, int page, int rows) {
         log.info("showStudent {} {},param:{}", page, rows, param);
         HashMap map = new HashMap();
@@ -72,6 +73,7 @@ public class StudentController {
      */
     @RequestMapping(value = "/showStudent", method = RequestMethod.POST)
     @ResponseBody
+    @CrossOrigin
     public HashMap showStudent(@RequestParam String name, Long studentId, Long courseId, Integer page, Integer rows) {
         log.info("showStudent ====={} {}", name, studentId);
         HashMap map = new HashMap();

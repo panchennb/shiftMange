@@ -11,6 +11,10 @@ public class ShiftRelateInfo {
 
     private String studyPlanId;//关联学习计划ID
 
+    private String courseId;//课程ID
+
+    private String trainingAgencyName;//机构名
+
     public String getId() {
         return id;
     }
@@ -49,5 +53,21 @@ public class ShiftRelateInfo {
 
     public void setStudyPlanId(String studyPlanId) {
         this.studyPlanId = studyPlanId;
+    }
+
+    public String getCourseId() {
+        return courseId;
+    }
+
+    public void setCourseId(String courseId) {
+        this.courseId = courseId;
+    }
+
+    public String getTrainingAgencyName() {
+        return trainingAgencyName;
+    }
+
+    public void setTrainingAgencyName(String trainingAgencyName) {
+        this.trainingAgencyName = trainingAgencyName;
     }
 }

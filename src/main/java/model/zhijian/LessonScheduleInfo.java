@@ -1,5 +1,7 @@
 package model.zhijian;
 
+import java.util.Objects;
+
 /**
  * 课表信息
  */
@@ -59,24 +61,17 @@ public class LessonScheduleInfo {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
         LessonScheduleInfo that = (LessonScheduleInfo) o;
-
-        if (dsptZjszId != null ? !dsptZjszId.equals(that.dsptZjszId) : that.dsptZjszId != null) return false;
-        if (dsptBh != null ? !dsptBh.equals(that.dsptBh) : that.dsptBh != null) return false;
-        if (dsptZjszName != null ? !dsptZjszName.equals(that.dsptZjszName) : that.dsptZjszName != null) return false;
-        if (dsptZjszLevel != null ? !dsptZjszLevel.equals(that.dsptZjszLevel) : that.dsptZjszLevel != null)
-            return false;
-        return ext1 != null ? ext1.equals(that.ext1) : that.ext1 == null;
+        return Objects.equals(dsptZjszId, that.dsptZjszId) &&
+                Objects.equals(dsptBh, that.dsptBh) &&
+                Objects.equals(dsptZjszName, that.dsptZjszName) &&
+                Objects.equals(dsptZjszLevel, that.dsptZjszLevel) &&
+                Objects.equals(ext1, that.ext1);
     }
 
     @Override
     public int hashCode() {
-        int result = dsptZjszId != null ? dsptZjszId.hashCode() : 0;
-        result = 31 * result + (dsptBh != null ? dsptBh.hashCode() : 0);
-        result = 31 * result + (dsptZjszName != null ? dsptZjszName.hashCode() : 0);
-        result = 31 * result + (dsptZjszLevel != null ? dsptZjszLevel.hashCode() : 0);
-        result = 31 * result + (ext1 != null ? ext1.hashCode() : 0);
-        return result;
+        return Objects.hash(dsptZjszId, dsptBh, dsptZjszName, dsptZjszLevel, ext1);
     }
+
 }

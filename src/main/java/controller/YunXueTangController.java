@@ -72,6 +72,7 @@ public class YunXueTangController {
     @RequestMapping(value = "/relateStudyPlan", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
+    @CrossOrigin
     public Object relateStudyPlan(HttpServletRequest request, @RequestBody ShiftRelateInfo param) {
         int code = 1;
         String msg = "";
@@ -88,7 +89,7 @@ public class YunXueTangController {
             shift.setIsRelated(param.getIsRelated());
             shiftInfo = shiftInterface.save(shift);
             students = joinStudent(param);
-            returnStudyPlan(shift, param);
+//            returnStudyPlan(shift, param);
         } catch (Exception e) {
             LOGGER.error(e.toString());
             code = 0;
@@ -182,16 +183,23 @@ public class YunXueTangController {
     /**
      * 3.开班确认回调接口
      *
-     * @param shift
+     * @param request
      * @param param
+     * @return
      */
-    private void returnStudyPlan(ShiftInfo shift, ShiftRelateInfo param) {
+    @RequestMapping(value = "/returnstudyplan", method = RequestMethod.POST)
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    @CrossOrigin
+    public Object returnStudyPlan(HttpServletRequest request, @RequestBody ShiftRelateInfo param) {
+//    private void returnStudyPlan(ShiftInfo shift, ShiftRelateInfo param) {
+        String result = "";
         try {
             Object tokenReturn = ZhiJianController.getToken(USERNO, USERPWD);
             JSONObject tokenJson = JSONObject.fromObject(tokenReturn);
             String token = tokenJson.getString("data");
-            String dsptKcszId = shift.getCourseId().toString();// 课程ID
-            String dsptJgjg = shift.getTrainingAgencyName();// 监管机构
+            String dsptKcszId = param.getCourseId();// 课程ID
+            String dsptJgjg = param.getTrainingAgencyName();// 监管机构
             // 获取学习计划阶段及课程
             JSONObject json = new JSONObject();
             json.put("apikey", APIKEY);
@@ -216,12 +224,13 @@ public class YunXueTangController {
                 info.setDsptZjszName(name);
                 info.setExt1(phaseStudyHours);
                 infos.add(info);
-                info.setDsptBh(orderIndex);
-                info.setDsptZjszId(index.toString());
-                info.setDsptZjszLevel("2");
-                info.setDsptZjszName(masterTitle);
-                info.setExt1(studyHours);
-                infos.add(info);
+                LessonScheduleInfo info2 = new LessonScheduleInfo();
+                info2.setDsptBh(orderIndex);
+                info2.setDsptZjszId(index.toString());
+                info2.setDsptZjszLevel("2");
+                info2.setDsptZjszName(masterTitle);
+                info2.setExt1(studyHours);
+                infos.add(info2);
             }
             List<LessonScheduleInfo> kbxx = new ArrayList<LessonScheduleInfo>(infos);// 课表信息
             Map<String, Object> params = new HashMap<>();
@@ -229,10 +238,11 @@ public class YunXueTangController {
             params.put("dsptKcszId", dsptKcszId);
             params.put("dsptJgjg", dsptJgjg);
             params.put("kbxx", kbxx);
-            String result = OKHttp2Utils.postJson(KBQR_URL, params.toString());
+            result = OKHttp2Utils.postJson(KBQR_URL, JSONObject.fromObject(params).toString());
             LOGGER.info(result);
         } catch (IOException e) {
             LOGGER.error(e.toString());
         }
+        return result;
     }
 }
